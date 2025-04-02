@@ -25,7 +25,7 @@ def save_patient_to_mongodb(patient_json, collection):
         return None
 
 # Ejemplo de uso
-if __name__ == "__main__":
+if _name_ == "_main_":
     # Cadena de conexión a MongoDB (reemplaza con tu propia cadena de conexión)
     uri = "mongodb+srv://mardugo:clave@sampleinformationservic.t2yog.mongodb.net/?retryWrites=true&w=majority&appName=SampleInformationService"
 
