@@ -3,10 +3,7 @@ import uvicorn
 from app.controlador.PatientCrud import GetPatientById,WritePatient,GetPatientByIdentifier
 from app.controlador.MedicationRequestCrud import WriteMedicationRequest, GetMedicationRequestById
 from fastapi.middleware.cors import CORSMiddleware
-from app.controlador.MedicationRequestCrud import UpdateMedicationRequestStatus
-from medicationrequest_crud import router as medicationrequest_router
 
-app.include_router(medicationrequest_router)
 app = FastAPI()
 
 app.add_middleware(
@@ -68,6 +65,7 @@ async def get_medication_request(req_id: str):
         raise HTTPException(status_code=500, detail=f"Error: {status}")
 
 
+
 @app.post("/medication-request/{req_id}/prepare", response_model=dict)
 async def prepare_medication_request(req_id: str):
     status, data = UpdateMedicationRequestStatus(req_id, "preparado")
@@ -78,27 +76,6 @@ async def prepare_medication_request(req_id: str):
     else:
         raise HTTPException(status_code=500, detail=f"Error: {status}")
 
-@app.post("/medication-request/{req_id}/confirm", response_model=dict)
-async def confirm_medication_delivery(req_id: str):
-    status, data = UpdateMedicationRequestStatus(req_id, "entregado")
-    if status == "success":
-        return {"message": "Medication delivered successfully"}
-    elif status == "notFound":
-        raise HTTPException(status_code=404, detail="MedicationRequest not found")
-    else:
-        raise HTTPException(status_code=500, detail=f"Error: {status}")
-
-@app.put("/medication-request/{req_id}/confirm")
-async def confirm_medication_request(req_id: str):
-    # Cambiar el estado a "confirmado"
-    status, data = UpdateMedicationRequestStatus(req_id, "confirmed")
-    
-    if status == "success":
-        return {"message": "Medication request confirmed successfully", "data": data}
-    elif status == "notFound":
-        raise HTTPException(status_code=404, detail="Medication request not found")
-    else:
-        raise HTTPException(status_code=500, detail=f"Error: {status}")
 
 if __name__ == '__main__':
     import uvicorn
