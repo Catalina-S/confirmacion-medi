@@ -64,19 +64,6 @@ async def get_medication_request(req_id: str):
     else:
         raise HTTPException(status_code=500, detail=f"Error: {status}")
 
-
-
-@app.post("/medication-request/{req_id}/prepare", response_model=dict)
-async def prepare_medication_request(req_id: str):
-    status, data = UpdateMedicationRequestStatus(req_id, "preparado")
-    if status == "success":
-        return {"message": "Medication prepared successfully"}
-    elif status == "notFound":
-        raise HTTPException(status_code=404, detail="MedicationRequest not found")
-    else:
-        raise HTTPException(status_code=500, detail=f"Error: {status}")
-
-
 if __name__ == '__main__':
     import uvicorn
     uvicorn.run(app, host="0.0.0.0", port=8000)
