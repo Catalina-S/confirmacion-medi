@@ -86,6 +86,18 @@ async def confirm_medication_delivery(req_id: str):
     else:
         raise HTTPException(status_code=500, detail=f"Error: {status}")
 
+@app.put("/medication-request/{req_id}/confirm")
+async def confirm_medication_request(req_id: str):
+    # Cambiar el estado a "confirmado"
+    status, data = UpdateMedicationRequestStatus(req_id, "confirmed")
+    
+    if status == "success":
+        return {"message": "Medication request confirmed successfully", "data": data}
+    elif status == "notFound":
+        raise HTTPException(status_code=404, detail="Medication request not found")
+    else:
+        raise HTTPException(status_code=500, detail=f"Error: {status}")
+
 if __name__ == '__main__':
     import uvicorn
     uvicorn.run(app, host="0.0.0.0", port=8000)
