@@ -5,7 +5,13 @@ import json
 
 collection = connect_to_mongodb("SamplePatientService", "medication_requests")
 
-
+def WriteMedicationRequest(data: dict):
+    try:
+        data["estado"] = "pendiente"  # <-- lo agregas automáticamente
+        result = collection.insert_one(data)
+        return "success", str(result.inserted_id)
+    except Exception as e:
+        return str(e), None
 
 def WriteMedicationRequest(data: dict):
     try:

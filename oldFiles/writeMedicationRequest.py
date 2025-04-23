@@ -10,13 +10,13 @@ def connect_to_mongodb(uri, db_name, collection_name):
     return collection
 
 # Función para guardar el JSON en MongoDB
-def save_patient_to_mongodb(patient_json, collection):
+def save_medication_request_to_mongodb(medication_request_json, collection):
     try:
         # Convertir el JSON string a un diccionario de Python
-        patient_data = json.loads(patient_json)
+        medication_request_data = json.loads(medication_request_json)
 
         # Insertar el documento en la colección de MongoDB
-        result = collection.insert_one(patient_data)
+        result = collection.insert_one(medication_request_data)
 
         # Retornar el ID del documento insertado
         return result.inserted_id
@@ -31,69 +31,48 @@ if __name__ == "__main__":
 
     # Nombre de la base de datos y la colección
     db_name = "SamplePatientService"
-    collection_name = "patients"
+    collection_name = "medication_requests"
 
     # Conectar a MongoDB
     collection = connect_to_mongodb(uri, db_name, collection_name)
 
-    # JSON string correspondiente al artefacto Patient de HL7 FHIR
-    patient_json = f'''
+    # JSON string correspondiente al artefacto MedicationRequest de HL7 FHIR
+    medication_request_json = '''
     {
-      "resourceType": "Patient",
-      "identifier": [
+      "resourceType": "MedicationRequest",
+      "status": "active",
+      "intent": "order",
+      "medicationCodeableConcept": {
+        "coding": [
+          {
+            "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
+            "code": "1049630",
+            "display": "Acetaminophen 500 MG Oral Tablet"
+          }
+        ],
+        "text": "Acetaminophen 500mg Tablet"
+      },
+      "subject": {
+        "reference": "Patient/123"
+      },
+      "authoredOn": "2024-04-22",
+      "requester": {
+        "reference": "Practitioner/456"
+      },
+      "dosageInstruction": [
         {
-          "type": "cc",
-          "value": "1020713756"
-        },
-        {
-          "type": "pp",
-          "value": "AQ123456789"
-        }
-      ],
-      "name": [
-        {
-          "use": "official",
-          "text": "Mario Enrique Duarte",
-          "family": "Duarte",
-          "given": [
-            "Mario",
-            "Enrique"
-          ]
-        }
-      ],
-      "telecom": [
-        {
-          "system": "phone",
-          "value": "3142279487",
-          "use": "home"
-        },
-        {
-          "system": "email",
-          "value": "mardugo@gmail.com",
-          "use": "home"
-        }
-      ],
-      "gender": "male",
-      "birthDate": "1986-02-25",
-      "address": [
-        {
-          "use": "home",
-          "line": [
-            "Cra 55A # 167A - 30"
-          ],
-          "city": "Bogotá",
-          "state": "Cundinamarca",
-          "postalCode": "11156",
-          "country": "Colombia"
+          "text": "Take 1 tablet every 8 hours as needed for pain."
         }
       ]
     }
     '''
 
-   # Guardar el JSON en MongoDB
-    inserted_id = save_patient_to_mongodb(patient_json, collection)
+    # Guardar el JSON en MongoDB
+    inserted_id = save_medication_request_to_mongodb(medication_request_json, collection)
 
     if inserted_id:
-        print(f"Paciente guardado con ID: {inserted_id}")
+        print(f"MedicationRequest guardado con ID: {inserted_id}")
     else:
-        print("No se pudo guardar el paciente.") 
+        print("No se pudo guardar el MedicationRequest.")
+
+
