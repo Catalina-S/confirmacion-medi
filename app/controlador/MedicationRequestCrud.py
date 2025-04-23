@@ -1,5 +1,6 @@
 from connection import connect_to_mongodb
 from bson import ObjectId
+from db import medication_requests_collection
 from fhir.resources.patient import Patient
 import json
 
