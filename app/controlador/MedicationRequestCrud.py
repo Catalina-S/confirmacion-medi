@@ -23,3 +23,16 @@ def GetMedicationRequestById(req_id: str):
         return "success", med_req
     except Exception as e:
         return str(e), None
+
+def UpdateMedicationRequestStatus(req_id: str, new_status: str):
+    try:
+        result = collection.update_one(
+            {"_id": ObjectId(req_id)},
+            {"$set": {"estado": new_status}}
+        )
+        if result.matched_count == 0:
+            return "notFound", None
+        return "success", None
+    except Exception as e:
+        return str(e), None
+
