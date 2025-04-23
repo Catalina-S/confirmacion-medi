@@ -4,7 +4,9 @@ from app.controlador.PatientCrud import GetPatientById,WritePatient,GetPatientBy
 from app.controlador.MedicationRequestCrud import WriteMedicationRequest, GetMedicationRequestById
 from fastapi.middleware.cors import CORSMiddleware
 from app.controlador.MedicationRequestCrud import UpdateMedicationRequestStatus
+from medicationrequest_crud import router as medicationrequest_router
 
+app.include_router(medicationrequest_router)
 app = FastAPI()
 
 app.add_middleware(
