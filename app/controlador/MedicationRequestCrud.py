@@ -1,10 +1,22 @@
 from connection import connect_to_mongodb
 from bson import ObjectId
+from db import medication_requests_collection
 from fhir.resources.patient import Patient
 import json
 
 collection = connect_to_mongodb("SamplePatientService", "medication_requests")
 
+router = APIRouter()
+
+@router.put("/medication-request/{medication_request_id}/confirm")
+async def confirm_medication_request(medication_request_id: str):
+    updated_result = medication_requests_collection.update_one(
+        {"_id": ObjectId(medication_request_id)},
+        {"$set": {"status": "confirmed"}}
+    )
+    if updated_result.matched_count == 0:
+        raise HTTPException(status_code=404, detail="MedicationRequest no encontrado")
+    return {"message": "MedicationRequest confirmado exitosamente"}
 
 
 def WriteMedicationRequest(data: dict):
