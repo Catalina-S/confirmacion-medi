@@ -25,7 +25,7 @@ def save_patient_to_mongodb(patient_json, collection):
         return None
 
 # Ejemplo de uso
-if _name_ == "_main_":
+if __name__ == "__main__":
     # Cadena de conexión a MongoDB (reemplaza con tu propia cadena de conexión)
     uri = "mongodb+srv://mardugo:clave@sampleinformationservic.t2yog.mongodb.net/?retryWrites=true&w=majority&appName=SampleInformationService"
 
@@ -90,10 +90,10 @@ if _name_ == "_main_":
     }
     '''
 
-    # Guardar el JSON en MongoDB
+   # Guardar el JSON en MongoDB
     inserted_id = save_patient_to_mongodb(patient_json, collection)
 
     if inserted_id:
         print(f"Paciente guardado con ID: {inserted_id}")
     else:
-        print("No se pudo guardar el paciente.")
+        print("No se pudo guardar el paciente.") 

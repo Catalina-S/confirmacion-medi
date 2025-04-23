@@ -2,7 +2,7 @@ from fhir.resources.patient import Patient
 import json
 
 # Ejemplo de uso
-if _name_ == "_main_":
+if __name__ == "__main__":
     # JSON string correspondiente al artefacto Patient de HL7 FHIR
     patient_json = '''
     {

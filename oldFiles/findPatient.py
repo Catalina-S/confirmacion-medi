@@ -43,7 +43,7 @@ def display_patient(patient):
         print("No se encontró ningún paciente con el identifier especificado.")
 
 # Ejemplo de uso
-if _name_ == "_main_":
+if __name__ == "__main__":
     # Cadena de conexión a MongoDB (reemplaza con tu propia cadena de conexión)
     uri = "mongodb+srv://mardugo:clave@sampleinformationservic.t2yog.mongodb.net/?retryWrites=true&w=majority&appName=SampleInformationService"
 
